@@ -1,0 +1,1 @@
+D bindings to valve's gamenetworkingsockets (https://github.com/ValveSoftware/GameNetworkingSockets).  You must have google protobuf, openssl, a c++ standard library, and gamenetworkingsockets itself, all installed somewhere where the linker can find them.
