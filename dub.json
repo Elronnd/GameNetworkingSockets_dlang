@@ -1,0 +1,26 @@
+{
+	"name": "gamenetworkingsockets_d",
+	"authors": [
+		"Elronnd"
+	],
+	"description": "D bindings for valve's gamenetworkingsockets",
+	"copyright": "Copyright © 2018, Elronnd",
+	"license": "BSD-3",
+	"preBuildCommands": ["cd GameNetworkingSockets; cmake .; make -j4"],
+	"libs": ["protobuf", "stdc++", "crypto"],
+	"targetType": "executable",
+	"configurations": [
+		{
+			"name": "static",
+			"lflags": ["GameNetworkingSockets/src/libGameNetworkingSockets_s.a"],
+			"versions": ["static_gns_build"]
+		},
+		{
+			"name": "dynamic",
+			"preBuildCommands": ["cp GameNetworkingSockets/src/libGameNetworkingSockets.so ."],
+			"versions": ["dynamic_gns_build"],
+			"lflags": ["-L."],
+			"libs": ["GameNetworkingSockets"]
+		}
+	]
+}

@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+gamenetworkingsockets_d.so
+gamenetworkingsockets_d.dylib
+gamenetworkingsockets_d.dll
+gamenetworkingsockets_d.a
+gamenetworkingsockets_d.lib
+gamenetworkingsockets_d-test-*
+*.exe
+*.o
+*.obj
+*.lst
+
+libGameNetworkingSockets.so
