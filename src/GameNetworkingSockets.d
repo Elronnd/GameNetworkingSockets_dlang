@@ -345,6 +345,45 @@ extern (C) {
 	pragma(mangle, "GameNetworkingSockets_RunConnectionStatusChangedCallbacks") void RunConnectionStatusChangedCallbacks(ptrdiff_t instance_ptr, ConnectionStatusChangedCallback callback, ptrdiff_t context);
 }
 
-extern (C++) class ISteamNetworkingSockets{};
+// isteamnetworkingsockets.h (c++ code)
+enum NetworkingCallbacks = 1200;
+extern (C++) abstract class ISteamNetworkingSockets{
+public:
+	ListenSocket CreateListenSocket(int steam_connect_virtual_port, uint ip, ushort port);
+	NetConnection ConnectByIPv4Address(uint ip, ushort port);
+	Result AcceptConnection(NetConnection conn);
+	bool CloseConnection(NetConnection peer, int reason, const char *debug_, bool enable_linger);
+	bool CloseListenSocket(ListenSocket socket, const char *notify_remote_reason);
+	bool SetConnectionUserData(NetConnection peer, long user_data);
+	long GetConnectionUserData(NetConnection peer);
+	void SetConnectionName(NetConnection peer, const char *name);
+	bool GetConnectionName(NetConnection peer, char *name, int max_len);
+	Result SendMessageToConnection(NetConnection con, const void *data, uint len, NetworkingSendType send_type);
+	Result FlushMessagesOnConnection(NetConnection conn);
+	int ReceiveMessagesOnConnection(NetConnection conn, Message **out_messages, int max_messages);
+	int ReceiveMessagesOnListenSocket(ListenSocket socket, Message **out_messages, int max_messages);
+	bool GetConnectionInfo(NetConnection conn, ConnectionInfo *info);
+	bool GetQuickConnectionStatus(NetConnection conn, QuickConnectionInfo *info);
+	int GetDetailedConnectionStatus(NetConnection conn, char *buf, int len);
+	bool GetListenSocketInfo(ListenSocket socket, uint *ip, ushort *port);
+	bool CreateSocketPair(NetConnection *conn1, NetConnection *conn2, bool use_network_loopback);
+	bool GetConnectionDebugText(NetConnection conn, char *buf, int len);
+	int GetConfigurationValue(ConfigurationValue value);
+	bool SetConfigurationValue(ConfigurationValue key, int value);
+	const char *GetConfigurationValueName(ConfigurationValue value);
+	int GetConfigurationString(ConfigurationString key, char *dest, int len);
+	bool SetConfigurationString(ConfigurationString key, const char *value);
+	const char *GetConfigurationStringName(ConfigurationString key);
+	int GetConnectionConfigurationValue(NetConnection conn, ConfigurationValue value);
+	bool SetConnectionConfigurationValue(NetConnection conn, ConfigurationValue key, int value);
+	void RunCallbacks(SocketsCallbacks *callbacks);
+	protected ~this();
+};
+private enum DgramErrMsgLen = 1024;
 extern (C) ISteamNetworkingSockets *SteamNetworkingSockets();
 extern (C) ISteamNetworkingSockets *SteamNetworkingSocketsGameServer();
+extern (C++) bool GameNetworkingSockets_Init(ref char[DgramErrMsgLen] errMsg);
+extern (C) void GameNetworkingSockets_Kill();
+
+// TODO
+extern (C++) class SocketsCallbacks {}
